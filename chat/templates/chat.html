@@ -1,0 +1,177 @@
+{% load static %}
+{% load chat_extra %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="{% static 'images/chat-bot.svg' %}" type="image/x-icon"/>
+    <title>Cours</title>
+    <!-- Liens vers les polices et feuilles de style -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <link rel="stylesheet" href="{% static 'css/loader.css' %}">
+</head>
+<body>
+    <div class="accueil">
+        <!-- Menu latéral -->
+        <aside class="menu-1">
+            <!-- Logo -->
+            <div class="logo-1">
+                <img src="{% static 'images/Logo.svg' %}" alt="logo">
+            </div>
+            
+            <!-- Navigation principale -->
+            <nav>
+                <ul>
+                    <li><a href="{% url 'cours' %}"><img src="{% static 'vectors/dashbord_1.svg' %}" alt="Tableau de bord">Tableau de bord</a></li>
+                    <li class="active"><img src="{% static 'vectors/cours_1.svg' %}" alt="Cours">Cours</li>
+                    <li><a href="{% url 'compte' %}"><img src="{% static 'vectors/compte.svg' %}" alt="Mon compte">Mon compte</a></li>
+                    <li><a href="{% url 'parametre' %}"><img src="{% static 'vectors/parametre.svg' %}" alt="Paramètres">Paramètres</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Pied de page du menu latéral -->
+            <div class="footer">
+                <div class="help">
+                    <img src="{% static 'vectors/help.svg' %}" alt="Aide">
+                    <span><a href="">Besoin d'aide</a></span>
+                </div>
+                <button class="subscription" onclick="location.href=''">Changer d'abonnement</button>
+                <div class="logout">
+                    <img src="{% static 'vectors/logout.svg' %}" alt="Déconnexion">
+                    <span><a href="{% url 'logout' %}">Se déconnecter</a></span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Contenu principal -->
+        <main class="cours">
+            <!-- En-tête du cours -->
+            <header class="cours-header">
+                <!-- Informations du cours -->
+                <div class="cours-info">
+                    <img src="{% static 'vectors/cours.svg' %}" alt="Cours">
+                    <span>Cours : {{cours_name |upper}} {{ user.profile.niveau }}</span>
+                    <button class="plus-button" onclick="toggleCoursList()">
+                        <img src="{% static 'vectors/plus.svg' %}" alt="Plus">
+                    </button>
+                </div>
+                
+                <!-- Menu des discussions -->
+                <div class="discussions nav">
+                    <li>
+                        <span class="num">{{ sessions|length }}</span>
+                        <button class="discussions-button">
+                            <img src="{% static 'vectors/discussion.svg' %}" alt="Discussions">
+                        </button>
+                        
+                        <ul>
+                            <li class="title">Mes discussions </li>
+                            {% for session in sessions %}
+                                <li>
+                                    <a href="{% url 'load' session.id %}?cours_name={{ cours_name }}">{{ session.title }} | {{ session.created }}</a>
+                                    <a href="{% url 'delete_session' session.id %}?cours_name={{ cours_name }}"> <button class="delete-btn"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    <span style="margin-right: 30px;">Historiques</span>
+                </div>
+                
+                <!-- Bouton d'enregistrement -->
+                <div class="cours-info">
+                    <a href="{% url 'save_chat' %}?cours_name={{ cours_name }}">
+                        <button class="save-button">
+                            <img src="{% static 'vectors/save.svg' %}" alt="Save" style="margin-left: -30px; margin-right: -20px;">
+                        </button>
+                    </a>
+                    <span>Enregistrer</span>
+                </div>
+                
+                <!-- Profil de l'utilisateur -->
+                <div class="profile">
+                    <div class="profile-pic"></div>
+                    <div class="profile-info">
+                        <div class="name"> 
+                            <a href="{% url 'parametre' %}">
+                                <span >{{  user.first_name }}</span>
+                            </a>
+                        </div>
+                        <div class="grade">{{ user.profile.niveau }}</div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Zone de chat -->
+            <ul id="chat" class="chat-thread">
+                {% for chat in chats %}
+                    <!-- Message de l'utilisateur -->
+                    <li class="user-message">
+                        {{ chat.message }}
+                    </li>
+                    <!-- Message du chatbot -->
+                    <li class="bot-message">
+                        {{ chat.response |convert_markdown|safe}}
+                    </li>
+                {% endfor %}
+            </ul>
+            
+            <!-- Zone de saisie -->
+            <div class="chat-container">
+                <div class="suggestion" id="file-info" style="display: none;">
+                    <div class="suggestion-item">
+                        <button class="suggestion-icon" id="remove-file">
+                            <img src="{% static 'vectors/close.svg' %}" alt="Remove File">
+                        </button>
+                        <span class="suggestion-text">
+                            <img id="file-icon" src="" alt="File Icon" style="width: 20px; height: 20px; margin-right: 5px; vertical-align: middle;">
+                            <span id="file-name"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="chat-bottom">
+                    <form id="form" class="chat-form" action="" method="post">
+                        {% csrf_token %}
+                        <div class="input-container">
+                            <div class="input-wrapper">
+                                <input type="file" id="file-input" style="display: none;" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                                <button class="upload-button" type="button" onclick="document.getElementById('file-input').click();">
+                                    <img src="{% static 'vectors/add.svg' %}" alt="Upload">
+                                </button>
+                                <textarea rows='1' id="message" type="text" required placeholder="Que voudrais-tu savoir aujourd'hui ?"></textarea>
+                            </div>
+                            <div class="button-wrapper">
+                                <button class="mic-button" type="button">
+                                    <img src="{% static 'vectors/mic.svg' %}" class="mic-icon">
+                                </button>
+                                <button class="send-button" type="submit">
+                                    <img src="{% static 'vectors/send.svg' %}" alt="Envoyer">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Scripts JavaScript -->
+    <script src="{% static 'js/chat.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/info.js' %}"></script>
+    <script>
+        const image = "{% static 'images/image.png' %}";
+        const pdf = "{% static 'images/pdf.png' %}";
+        const doc = "{% static 'images/doc.png' %}";
+        const files = "{% static 'images/file.png' %}";
+        const MIC_ICON = "{% static 'vectors/mic.svg' %}";
+        const MIC_ACTIVE_ICON = "{% static 'vectors/mic-active.svg' %}";
+    </script>
+    <script src="{% static 'js/voice-recognition.js' %}"></script>
+    <script src="{% static 'js/load.js' %}"></script>
+</body>
+</html>
