@@ -174,8 +174,8 @@ def load_chats(request, session_id):
     session  = Session.objects.get(id=session_id)
     session_titles.clear()
     session_titles.append(session.title)
+
     user_chats = Chat.objects.filter(session=session)
-    user_chats.response = markdown.markdown(user_chats.response, extensions=['markdown.extensions.fenced_code'])
     for chat in user_chats:
         chats.append(chat)
 
