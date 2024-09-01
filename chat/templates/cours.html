@@ -15,9 +15,11 @@
 <body>
     <div class="accueil">
         <aside class="menu-1">
-            <div class="logo-1">
-                <img src="{% static 'images/Logo.svg' %}" alt="logo">
-            </div>
+            <a href="{% url 'cours' %}">
+                <div class="logo-1">
+                    <img src="{% static 'images/Logo.svg' %}" alt="logo">
+                </div>
+            </a>
             <nav>
                 <ul>
                     <li class="active">
