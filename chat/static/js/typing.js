@@ -30,9 +30,9 @@ const userChatDiv = (data) => {
     chatContainer.innerHTML += userChatDiv(userPrompt);
     userMessage.value = "";
   
-    // Ajouter l'animation de frappe
-    const typingAnimation = createTypingAnimation();
-    chatContainer.appendChild(typingAnimation);
+    // Ajouter l'animation de chargement
+    const loadingAnimation = createLoadingAnimation();
+    chatContainer.appendChild(loadingAnimation);
   
     // Faire défiler jusqu'au bas du chat
     chatContainer.scrollTop = chatContainer.scrollHeight;
@@ -51,34 +51,24 @@ const userChatDiv = (data) => {
       });
       const data = await response.json();
       
-      // Supprimer l'animation de frappe
-      typingAnimation.remove();
+      // Supprimer l'animation de chargement
+      loadingAnimation.remove();
   
-      // Ajouter la réponse du chatbot
-      const botMessageElement = document.createElement('li');
-      botMessageElement.className = 'bot-message';
-      const messageContent = document.createElement('div');
-      messageContent.className = 'message-content';
-      messageContent.style.display = 'none';
-      messageContent.innerHTML = data.response;
-      botMessageElement.appendChild(messageContent);
-      chatContainer.appendChild(botMessageElement);
-  
-      // Démarrer l'effet de frappe
-      setTimeout(() => {
-        startTypingEffect(messageContent);
-      }, 500);
+      // Ajouter la réponse du chatbot telle quelle
+      chatContainer.innerHTML += aiChatDiv(data.response);
   
       // Faire défiler jusqu'au bas du chat
       chatContainer.scrollTop = chatContainer.scrollHeight;
     } catch (error) {
       console.error('Error:', error);
       // Gérer l'erreur ici (par exemple, afficher un message à l'utilisateur)
+      loadingAnimation.remove();
+      chatContainer.innerHTML += aiChatDiv("Désolé, une erreur s'est produite.");
     }
   };
   
-  // Fonction pour créer l'animation de frappe
-  function createTypingAnimation() {
+  // Fonction pour créer l'animation de chargement
+  function createLoadingAnimation() {
     const chatBubble = document.createElement('div');
     chatBubble.className = 'chat-bubble';
     chatBubble.innerHTML = `
@@ -89,32 +79,6 @@ const userChatDiv = (data) => {
       </div>
     `;
     return chatBubble;
-  }
-  
-  // Fonction pour l'effet de frappe
-  function startTypingEffect(element, speed = 10) {
-    const content = element.innerHTML;
-    element.innerHTML = '';
-    element.style.display = 'block';
-    
-    let i = 0;
-    function typeWriter() {
-      if (i < content.length) {
-        if (content.charAt(i) === '<') {
-          // Trouver la fermeture '>' de la balise
-          const closingIndex = content.indexOf('>', i);
-          if (closingIndex !== -1) {
-            element.innerHTML += content.substring(i, closingIndex + 1);
-            i = closingIndex + 1;
-          }
-        } else {
-          element.innerHTML += content.charAt(i);
-          i++;
-        }
-        setTimeout(typeWriter, speed);
-      }
-    }
-    typeWriter();
   }
   
   // Fonction pour obtenir le cookie CSRF
@@ -132,7 +96,7 @@ const userChatDiv = (data) => {
     }
   });
   
-  // Fonction pour gérer le téléchargement de fichiers
+  // Gestion du téléchargement de fichiers
   document.getElementById('file-input').addEventListener('change', function(e) {
     const file = e.target.files[0];
     if (file) {
