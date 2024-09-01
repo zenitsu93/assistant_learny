@@ -152,18 +152,19 @@ def get_chatbot_response(request):
 @login_required(login_url='home')
 def save_chat(request):
     cours_name = request.GET.get('cours_name')
-    session = Session(
-        id=generate_uuid(),
-        cours_name = cours_name,
-        title=session_titles[0],
-        user=request.user,
-    )
-    session.save()
-    for chat in chats:
-        chat.session = session
-        chat.save()
-    chats.clear()
-    session_titles.clear()
+    if session_titles:
+        session = Session(
+            id=generate_uuid(),
+            cours_name = cours_name,
+            title=session_titles[0],
+            user=request.user,
+        )
+        session.save()
+        for chat in chats:
+            chat.session = session
+            chat.save()
+        chats.clear()
+        session_titles.clear()
     return redirect('chatbot', cours_name)
 
 
