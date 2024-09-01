@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.http import JsonResponse
 import uuid
-import io
+import markdown
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from chat.models import Chat, Session
@@ -12,7 +12,6 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.views.decorators.csrf import csrf_protect
-from .models import UserProfile
 from django.db import transaction
 
 
@@ -145,6 +144,7 @@ def get_chatbot_response(request):
             response=chatbot_response,
         )
         chats.append(chat)
+        chatbot_response = markdown.markdown(chatbot_response, extensions=['markdown.extensions.fenced_code'])
         return JsonResponse({'response': chatbot_response})
 
 
@@ -174,12 +174,12 @@ def load_chats(request, session_id):
     session  = Session.objects.get(id=session_id)
     session_titles.clear()
     session_titles.append(session.title)
-
     user_chats = Chat.objects.filter(session=session)
+    user_chats.response = markdown.markdown(user_chats.response, extensions=['markdown.extensions.fenced_code'])
     for chat in user_chats:
         chats.append(chat)
 
-    context = {'chats': user_chats, 'load': True,'cours_name': cours_name, 'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5]}
+    context = {'chats': user_chats, 'cours_name': cours_name, 'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5]}
     
     return render(request, 'chat.html', context)
 

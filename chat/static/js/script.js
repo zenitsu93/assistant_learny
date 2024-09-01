@@ -22,8 +22,6 @@ const handleSubmit = async (event) => {
   const userPrompt = userMessage.value;
   if (userPrompt.trim() == "") return;
 
-  console.log(`Message: ${userPrompt}`);
-
   chatContainer.innerHTML += userChatDiv(userPrompt);
   userMessage.value = "";
 
@@ -48,7 +46,6 @@ const handleSubmit = async (event) => {
     .then((response) => response.json())
     .then((data) => {
       const response = data.response;
-      console.log(`${response}`);
       chatContainer.innerHTML += aiChatDiv(response);
     });
 };

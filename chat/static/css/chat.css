@@ -503,6 +503,15 @@ textarea{
   height: auto;
 }
 
+.add-btn {
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  margin-left: 30px;
+}
+
+
 .discussions.nav .delete-btn i {
   font-size: 16px;
 }
@@ -510,6 +519,11 @@ textarea{
 .discussions.nav .delete-btn:hover i {
   color: #f44336;
 }
+
+.add-btn:hover i {
+  color: var(--primary-color);
+}
+
 
 .discussions-button {
   background: none;
@@ -554,6 +568,13 @@ textarea{
   background-color: var(--secondary-color);
   color: var(--black);
   align-items: center;
+}
+
+.bot-message ul,
+.bot-message ol {
+    list-style-type: none;
+    padding-left: 0;
+    margin-left: 0;
 }
 
 

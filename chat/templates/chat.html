@@ -1,5 +1,4 @@
 {% load static %}
-{% load chat_extra %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -70,7 +69,7 @@
                         </button>
                         
                         <ul>
-                            <li class="title">Mes discussions </li>
+                            <li class="title">Mes discussions <a href="{% url 'new_chat' %}?cours_name={{ cours_name }}"><button class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></button></a> </li>
                             {% for session in sessions %}
                                 <li>
                                     <a href="{% url 'load' session.id %}?cours_name={{ cours_name }}">{{ session.title }} | {{ session.created }}</a>
@@ -97,7 +96,7 @@
                     <div class="profile-pic"></div>
                     <div class="profile-info">
                         <div class="name"> 
-                            <a href="{% url 'parametre' %}">
+                            <a href="{% url 'compte' %}">
                                 <span >{{  user.first_name }}</span>
                             </a>
                         </div>
@@ -115,7 +114,7 @@
                     </li>
                     <!-- Message du chatbot -->
                     <li class="bot-message">
-                        {{ chat.response |convert_markdown|safe}}
+                        {{ chat.response}}
                     </li>
                 {% endfor %}
             </ul>
