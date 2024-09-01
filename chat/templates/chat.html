@@ -96,16 +96,18 @@
                 
                 <!-- Profil de l'utilisateur -->
                 <div class="profile">
-                    <div class="profile-pic"></div>
+                    <a href="{% url 'compte' %}">
+                      <div>
+                        <img class="profile-pic" src="https://avatar.iran.liara.run/username?username={{user.first_name}}+{{user.last_name}}"/>
+                      </div>
+                    </a>
                     <div class="profile-info">
-                        <div class="name"> 
-                            <a href="{% url 'compte' %}">
-                                <span >{{  user.first_name }}</span>
-                            </a>
-                        </div>
-                        <div class="grade">{{ user.profile.niveau }}</div>
+                      <div class="name">
+                          <span>{{ user.first_name }}</span>
+                      </div>
+                      <div class="grade">{{ user.profile.niveau }}</div>
                     </div>
-                </div>
+                  </div>
             </header>
             
             <!-- Zone de chat -->

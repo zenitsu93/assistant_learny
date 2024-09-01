@@ -67,22 +67,23 @@
                     <img src="{% static 'vectors/search.svg' %}" alt="Search icon">
                 </div>
                 <div class="profile">
-                    <div class="profile-pic"><img
-                      src="https://api.dicebear.com/9.x/avataaars/svg?seed={{user.id}}"
-                      alt="avatar"
-                    />
+                  <a href="{% url 'compte' %}">
+                    <div>
+                      <img class="profile-pic" src="https://avatar.iran.liara.run/username?username={{user.first_name}}+{{user.last_name}}"/>
                     </div>
-                    <div class="profile-info">
-                      <div class="name"> 
-                        <a href="{% url 'compte' %}">
-                            <span>{{ user.first_name }}</span>
-                        </a>
-                      </div>
-                      <div class="grade">{{ user.profile.niveau }}</div>
+                  </a>
+                  <div class="profile-info">
+                    <div class="name">
+                        <span>{{ user.first_name }}</span>
                     </div>
+                    <div class="grade">{{ user.profile.niveau }}</div>
+                  </div>
                 </div>
             </header>
             <h2>Informations personnelles</h2>
+            <div class="image-container">
+              <img src="https://avatar.iran.liara.run/username?username={{user.first_name}}+{{user.last_name}}" class="rectangle-image">
+            </div>
       <div class="details">
         <div class="item">
           <div class="label">Numéro de téléphone</div>

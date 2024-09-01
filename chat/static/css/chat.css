@@ -170,7 +170,7 @@ nav ul li.active {
   margin-bottom: 2rem;
 }
 
-.cours-info, .discussions, .profile {
+.cours-info, .discussions {
   display: flex;
   align-items: center;
   background-color: #57A773;
@@ -181,23 +181,30 @@ nav ul li.active {
   box-sizing: border-box;
 }
 
-.cours-info img, .discussions img, .profile img {
+.cours-info img, .discussions img {
   width: 24px;
   height: 24px;
   margin-right: 0.5rem;
 }
-
 .profile {
-  padding: 0.25rem 1rem;
+  display: flex;
+  align-items: center;
+  background-color: #57A773;
+  border-radius: 24px;
+  padding: 0.5rem 1rem;
 }
 
 .profile-pic {
-  width: 36px;
-  height: 36px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  background: url('../images/profil.jpeg') center/cover no-repeat;
   margin-right: 0.5rem;
 }
+
+.profile-info {
+  color: var(--white);
+}
+
 
 
 .name {
