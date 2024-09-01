@@ -75,11 +75,6 @@ function initLoader() {
         addLoader();
     }
 
-    // Montrer le loader au chargement de la page
-    window.addEventListener('load', function() {
-        showLoader();
-        setTimeout(hideLoader, 1000); // Cacher après 1 secondes
-    });
 
     // Montrer le loader lors de la soumission d'un formulaire
     document.querySelectorAll('form').forEach(form => {
