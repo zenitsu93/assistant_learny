@@ -96,33 +96,3 @@ const userChatDiv = (data) => {
     }
   });
   
-  // Gestion du téléchargement de fichiers
-  document.getElementById('file-input').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    if (file) {
-      const fileInfo = document.getElementById('file-info');
-      const fileName = document.getElementById('file-name');
-      const fileIcon = document.getElementById('file-icon');
-  
-      fileName.textContent = file.name;
-      fileInfo.style.display = 'block';
-  
-      // Définir l'icône en fonction du type de fichier
-      if (file.type.startsWith('image/')) {
-        fileIcon.src = image;
-      } else if (file.type === 'application/pdf') {
-        fileIcon.src = pdf;
-      } else if (file.type === 'application/msword' || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-        fileIcon.src = doc;
-      } else {
-        fileIcon.src = files;
-      }
-    }
-  });
-  
-  // Fonction pour supprimer le fichier sélectionné
-  document.getElementById('remove-file').addEventListener('click', function() {
-    document.getElementById('file-input').value = '';
-    document.getElementById('file-info').style.display = 'none';
-  });
-  
