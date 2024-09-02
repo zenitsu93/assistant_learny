@@ -9,7 +9,7 @@ urlpatterns = [
     path('parametre/', views.parametre_view, name='parametre'),
     path('cours/<str:cours_name>/', views.chatbot, name='chatbot'),
     path('logout/', views.user_logout, name='logout'),
-    path('save_chat/', views.save_chat, name='save_chat'),
+    # path('save_chat/', views.save_chat, name='save_chat'),
     
     path('new_chat/', views.new_chat, name='new_chat'),
     path('load/<str:session_id>', views.load_chats, name='load'),
