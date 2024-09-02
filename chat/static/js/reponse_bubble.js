@@ -47,6 +47,7 @@ const userChatDiv = (data) => {
         body: new URLSearchParams({
           csrfmiddlewaretoken: csrf_token,
           message: userPrompt,
+          session_id: document.getElementById("session_id").value
         }),
       });
       const data = await response.json();

@@ -72,7 +72,13 @@
                         </button>
                         
                         <ul>
-                            <li class="title">Mes discussions <a href="{% url 'new_chat' %}?cours_name={{ cours_name }}"><button class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></button></a> </li>
+                            <!--  -->
+                            <li class="title">Mes discussions 
+                                <a href="{% url 'new_chat' %}?cours_name={{ cours_name }}">
+                                    <button class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></button></a> 
+                                <a href="{% url 'delete_all_sessions' %}"> Tout supprimer
+                                    <button class="delete-btn"><i class="fa fa-trash" aria-hidden="true"></i></button></a>
+                            </li>
                             {% for session in sessions %}
                                 <li>
                                     <a href="{% url 'load' session.id %}?cours_name={{ cours_name }}">{{ session.title }} | {{ session.created }}</a>
@@ -82,16 +88,6 @@
                         </ul>
                     </li>
                     <span style="margin-right: 30px;">Historiques</span>
-                </div>
-                
-                <!-- Bouton d'enregistrement -->
-                <div class="cours-info">
-                    <a href="{% url 'save_chat' %}?cours_name={{ cours_name }}">
-                        <button class="save-button">
-                            <img src="{% static 'vectors/save.svg' %}" alt="Save" style="margin-left: -30px; margin-right: -20px;">
-                        </button>
-                    </a>
-                    <span>Enregistrer</span>
                 </div>
                 
                 <!-- Profil de l'utilisateur -->
@@ -147,6 +143,7 @@
                                     <img src="{% static 'vectors/add.svg' %}" alt="Upload">
                                 </button>
                                 <textarea rows='1' id="message" type="text" required placeholder="Que voudrais-tu savoir aujourd'hui ?"></textarea>
+                                <input type="hidden" id="session_id" value="{{ new_session.id }}"></input>
                             </div>
                             <div class="button-wrapper">
                                 <button class="mic-button" type="button">

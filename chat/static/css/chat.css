@@ -351,7 +351,6 @@ nav ul li.active {
 
 .plus-button,
 .upload-button,
-.save-button,
 .send-button,
 .mic-button {
   background: none;
@@ -364,7 +363,6 @@ nav ul li.active {
 
 .plus-button img,
 .upload-button img,
-.save-button img,
 .send-button img,
 .mic-button img {
   width: 24px;
