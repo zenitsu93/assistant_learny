@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
     <link rel="stylesheet" href="{% static 'css/loader.css' %}">
     <link rel="stylesheet" href="{% static 'css/bubble.css' %}">
+    <link rel="stylesheet" href="{% static 'css/list_cours.css' %}">
 </head>
 <body>
     <div class="accueil">
@@ -55,14 +56,15 @@
             <!-- En-tête du cours -->
             <header class="cours-header">
                 <!-- Informations du cours -->
-                <div class="cours-info">
-                    <img src="{% static 'vectors/cours.svg' %}" alt="Cours">
-                    <span>Cours : {{cours_name |upper}} {{ user.profile.niveau }}</span>
-                    <button class="plus-button" onclick="toggleCoursList()">
-                        <img src="{% static 'vectors/plus.svg' %}" alt="Plus">
-                    </button>
+                <div class="cours-container">
+                    <div class="cours-info">
+                        <img src="/static/vectors/cours.svg" alt="Cours">
+                        <span>Cours : {{cours_name|upper}} {{user.profile.niveau}}</span>
+                        <button class="plus-button">
+                            <img src="{% static 'vectors/plus.svg' %}" alt="Plus">
+                        </button>
+                    </div>
                 </div>
-                
                 <!-- Menu des discussions -->
                 <div class="discussions nav">
                     <li>
@@ -105,6 +107,14 @@
                     </div>
                   </div>
             </header>
+            <ul class="cours-liste" id="coursList">
+                <li><a href="{% url 'chatbot' 'maths' %}">MATHS 3eme</a></li>
+                <li><a href="{% url 'chatbot' 'physique-chimie' %}">PC 3eme</a></li>
+                <li><a href="{% url 'chatbot' 'français' %}">FRANCAIS 3eme</a></li>
+                <li><a href="{% url 'chatbot' 'anglais' %}">ANGLAIS 3eme</a></li>
+                <li><a href="{% url 'chatbot' 'svt' %}">SVT 3eme</a></li>
+                <li><a href="{% url 'chatbot' 'histoire-geographie' %}">HG 3eme</a></li>
+            </ul>
             
             <!-- Zone de chat -->
             <ul id="chat" class="chat-thread">
@@ -121,6 +131,20 @@
             </ul>
             
             <!-- Zone de saisie -->
+            {% comment %} <div class="contain">
+                <div class="avatar"></div>
+                <div class="chat-message">
+                    <div class="message-content">
+                        <p>Bonjour {{user.first_name}} !</p>
+                        <p>JJe suis ici pour t'aider à améliorer tes compétences en {{cours_name|upper}}. Prêt à commencer ?<br> Clique sur "OK" si tu es partant !</p>
+                        <a href="#" onclick="hideContain()">
+                            <button class="ok-btn">
+                            <img src="{% static 'vectors/close.svg' %}" alt="OK" class="ok-icon">
+                            </button>
+                        </a>                      
+                    </div>
+                </div>
+            </div> {% endcomment %}
             <div class="chat-container">
                 <div class="suggestion" id="file-info" style="display: none;">
                     <div class="suggestion-item">
@@ -161,8 +185,10 @@
     </div>
     
     <!-- Scripts JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/chat.js' %}"></script>
     <script src="{% static 'js/info.js' %}"></script>
+    <script src="{% static 'js/list_cours.js' %}"></script>
     <script>
         const image = "{% static 'images/image.png' %}";
         const pdf = "{% static 'images/pdf.png' %}";
@@ -174,5 +200,7 @@
     <script src="{% static 'js/voice-recognition.js' %}"></script>
     <script src="{% static 'js/load.js' %}"></script>
     <script src="{% static 'js/reponse_bubble.js' %}"></script>
+    {% comment %} <script src="{% static 'js/remove_link.js' %}"></script> {% endcomment %}
+
 </body>
 </html>

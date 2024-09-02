@@ -380,7 +380,6 @@ textarea{
   resize: none;
 }
 
-
 .discussions.nav {
   position: relative;
   height: 50px;
@@ -511,9 +510,20 @@ textarea{
 .add-btn {
   background: none;
   border: none;
-  color: #999;
   cursor: pointer;
   margin-left: 30px;
+}
+
+.ok-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 30px;
+}
+
+.ok-icon {
+  width: 40px; /* Ajustez la taille de l'image SVG */
+  height: 40px;
 }
 
 
@@ -525,7 +535,8 @@ textarea{
   color: #f44336;
 }
 
-.add-btn:hover i {
+.add-btn:hover i
+.ok-btn:hover i{
   color: var(--primary-color);
 }
 
