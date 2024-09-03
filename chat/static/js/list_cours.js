@@ -1,6 +1,5 @@
 // Fonction pour basculer l'affichage de la liste des cours
 function toggleCoursList() {
-    console.log("toggleCoursList appelé");
     const coursList = document.getElementById('coursList');
     const plusButton = document.querySelector('.plus-button img');
     if (coursList.style.display === 'none' || coursList.style.display === '') {

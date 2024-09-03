@@ -99,8 +99,6 @@ def user_logout(request):
 def generate_uuid():
     return str(uuid.uuid4())
 
-
-
 def save_chat(request, session_id, message, response):
     session = get_object_or_404(Session, id=session_id)
     session.title =make_title(message)
@@ -133,7 +131,10 @@ def chatbot(request, cours_name):
             user=request.user,
         )
     new_session.save()
-    context = {'cours_name': cours_name, 'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5], 'new_session':new_session}
+    context = {
+        'cours_name': cours_name, 
+        'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5], 
+        'new_session':new_session}
 
     return render(request, 'chat.html', context)
 
@@ -142,6 +143,7 @@ def get_chatbot_response(request):
     if request.method == 'POST':
         user_message = request.POST.get('message')
         session_id = request.POST.get('session_id')
+        print("debut",session_id)
         
         chatbot_response = generate_response(user_message, session_id)
         save_chat(request, session_id, user_message, chatbot_response)
@@ -154,14 +156,18 @@ chats = []
 @login_required(login_url='home')
 def load_chats(request, session_id):
     cours_name = request.GET.get('cours_name')
-    session  = Session.objects.get(id=session_id)
+    session = get_object_or_404(Session, id=session_id)
     user_chats = Chat.objects.filter(session=session)
     for chat in user_chats:
         chats.append(chat)
 
-    context = {'chats': user_chats, 'cours_name': cours_name, 'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5]}
+    context = {
+        'chats': user_chats, 
+        'cours_name': cours_name,
+        'new_session': session, 
+        'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5]}
     
-    return render(request, 'chat.html', context)
+    return render(request, 'chat.html', context, )
 
 
 
@@ -181,7 +187,10 @@ def new_chat(request):
             user=request.user,
         )
     new_session.save()
-    context = {'cours_name': cours_name, 'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5], 'new_session':new_session}
+    context = {
+        'cours_name': cours_name, 
+        'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5], 
+        'new_session':new_session}
 
     return render(request, 'chat.html', context)
 

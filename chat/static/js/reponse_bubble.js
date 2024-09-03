@@ -64,7 +64,7 @@ const userChatDiv = (data) => {
       console.error('Error:', error);
       // Gérer l'erreur ici (par exemple, afficher un message à l'utilisateur)
       loadingAnimation.remove();
-      chatContainer.innerHTML += aiChatDiv("Désolé, une erreur s'est produite.");
+      chatContainer.innerHTML += aiChatDiv("Désolé, je n'ai pas bien compris votre question.");
     }
   };
   

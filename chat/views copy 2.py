@@ -1,11 +1,11 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.http import JsonResponse
 import uuid
 import markdown
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from chat.models import Chat, Session
-from response import generate_response
+from response import generate_response, make_title
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -13,14 +13,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.views.decorators.csrf import csrf_protect
 from django.db import transaction
-
-
-
-  # Réinitialiser les variables globales
-global session_titles, chats
-session_titles = []
-chats = []
-
+from django.contrib import messages
+from .models import UserProfile
 
 
 
@@ -105,6 +99,18 @@ def user_logout(request):
 def generate_uuid():
     return str(uuid.uuid4())
 
+
+
+def save_chat(request, session_id, message, response):
+    session = get_object_or_404(Session, id=session_id)
+    session.title =make_title(message)
+    session.save()
+    chat = Chat.objects.create(
+        session=session,
+        message=message,
+        response=response
+    )
+    
 @login_required(login_url='home')
 def cours(request):
     return render(request, 'cours.html')
@@ -117,16 +123,17 @@ def compte_view(request):
 def parametre_view(request):
     return render(request, 'parametre.html')
 
-
-def generate_chatbot_response(message):
     return generate_response(message)
-
 
 @login_required(login_url='home')
 def chatbot(request, cours_name):
-    session_titles.clear()
-    chats.clear()
-    context = {'cours_name': cours_name, 'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5]}
+    new_session = Session(
+            cours_name = cours_name,
+            title='Nouvelle discussion',
+            user=request.user,
+        )
+    new_session.save()
+    context = {'cours_name': cours_name, 'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5], 'new_session':new_session}
 
     return render(request, 'chat.html', context)
 
@@ -134,47 +141,20 @@ def chatbot(request, cours_name):
 def get_chatbot_response(request):
     if request.method == 'POST':
         user_message = request.POST.get('message')
-        session_titles.append(user_message)
-        # chatbot_response = f'Reply from backend.\nMessage was received successfully'
-        chatbot_response = generate_chatbot_response(user_message)
-        chat = Chat(
-            id=generate_uuid(),
-            message=user_message,
-            response=chatbot_response,
-        )
-        chats.append(chat)
+        session_id = request.POST.get('session_id')
+        
+        chatbot_response = generate_response(user_message, session_id)
+        save_chat(request, session_id, user_message, chatbot_response)
+        
         chatbot_response = markdown.markdown(chatbot_response, extensions=['markdown.extensions.fenced_code'])
         return JsonResponse({'response': chatbot_response})
 
 
-
-@login_required(login_url='home')
-def save_chat(request):
-    cours_name = request.GET.get('cours_name')
-    if session_titles:
-        session = Session(
-            id=generate_uuid(),
-            cours_name = cours_name,
-            title=session_titles[0],
-            user=request.user,
-        )
-        session.save()
-        for chat in chats:
-            chat.session = session
-            chat.save()
-        chats.clear()
-        session_titles.clear()
-    return redirect('chatbot', cours_name)
-
-
-
+chats = []
 @login_required(login_url='home')
 def load_chats(request, session_id):
     cours_name = request.GET.get('cours_name')
     session  = Session.objects.get(id=session_id)
-    session_titles.clear()
-    session_titles.append(session.title)
-
     user_chats = Chat.objects.filter(session=session)
     for chat in user_chats:
         chats.append(chat)
@@ -185,23 +165,61 @@ def load_chats(request, session_id):
 
 
 
+
 @login_required(login_url='home')
 def delete_session(request, session_id):
-    #context = {'cours_name': request.GET.get('cours_name')}
+    cours_name = {'cours_name': request.GET.get('cours_name')}
     session  = Session.objects.get(id=session_id)
     session.delete()
     return redirect('cours')
 
-
-
-
-
 @login_required(login_url='home')
 def new_chat(request):
     cours_name = request.GET.get('cours_name')
-    session_titles.clear()
-    chats.clear()
-    return redirect('chatbot', cours_name)
+    new_session = Session(
+            cours_name = cours_name,
+            title='Nouvelle discussion',
+            user=request.user,
+        )
+    new_session.save()
+    context = {'cours_name': cours_name, 'sessions' :Session.objects.filter(user=request.user, cours_name=cours_name).order_by('-created')[:5], 'new_session':new_session}
+
+    return render(request, 'chat.html', context)
+
+
+@login_required(login_url='home')
+def delete_all_sessions(request):
+    # Supprime toutes les sessions, ce qui supprimera également tous les chats associés
+    Session.objects.all().delete()
+    return redirect('cours') 
+
+
+@login_required
+def info(request):
+    if request.method == 'POST':
+        user = request.user
+        profile = user.profile
+
+        # Mise à jour des champs de l'utilisateur
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        # L'e-mail n'est plus mis à jour
+        user.save()
+
+        # Mise à jour des champs du profil
+        profile.telephone = request.POST.get('telephone')
+        profile.date_naissance = request.POST.get('date_naissance')
+        # Le niveau n'est plus mis à jour
+        profile.ville = request.POST.get('ville')
+        profile.save()
+
+        messages.success(request, 'Vos informations ont été mises à jour avec succès.')
+        return redirect('compte')
+
+    return render(request, 'compte.html', {
+        'user': request.user,
+        'profile': request.user.profile
+    })
 
 
 def process_file(request):
@@ -222,4 +240,5 @@ def process_file(request):
         return JsonResponse({'message': 'Fichier traité avec succès'})
     
     return JsonResponse({'error': 'Aucun fichier n\'a été uploadé'}, status=400)
+
 
