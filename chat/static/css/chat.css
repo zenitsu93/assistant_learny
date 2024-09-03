@@ -496,7 +496,8 @@ textarea{
   color: #57A773;
 }
 
-.discussions.nav .delete-btn .add-btn{
+.discussions.nav .delete-btn,
+.discussions.nav .add-btn {
   background: none;
   border: none;
   color: #999;
@@ -507,18 +508,16 @@ textarea{
   height: auto;
 }
 
-
-.discussions.nav .delete-btn i .add-btn i{
-  font-size: 16px;
-}
-
+.discussions.nav .delete-btn:hover,
 .discussions.nav .delete-btn:hover i {
-  color: #f44336;
+  color: #f44336; /* Couleur rouge pour le bouton supprimer */
 }
 
-.discussions.nav .ad-btn:hover i {
-  color: var(--primary-color);
+.discussions.nav .add-btn:hover,
+.discussions.nav .add-btn:hover i {
+  color: var(--primary-color); /* Couleur primaire pour le bouton ajouter */
 }
+
 
 .discussions-button {
   background: none;
