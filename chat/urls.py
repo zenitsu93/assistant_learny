@@ -14,6 +14,7 @@ urlpatterns = [
     path('delete/<str:session_id>', views.delete_session, name='delete_session'),
     path('delete_all_sessions', views.delete_all_sessions, name='delete_all_sessions'),
     path('get_chatbot_response/', views.get_chatbot_response, name='get_chatbot_response'),
+    path('info/', views.info, name='info'),
 
     ]
 

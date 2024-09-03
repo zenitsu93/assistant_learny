@@ -13,6 +13,8 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.views.decorators.csrf import csrf_protect
 from django.db import transaction
+from django.contrib import messages
+from .models import UserProfile
 
 
 
@@ -189,6 +191,34 @@ def delete_all_sessions(request):
     # Supprime toutes les sessions, ce qui supprimera également tous les chats associés
     Session.objects.all().delete()
     return redirect('cours') 
+
+
+@login_required
+def info(request):
+    if request.method == 'POST':
+        user = request.user
+        profile = user.profile
+
+        # Mise à jour des champs de l'utilisateur
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        # L'e-mail n'est plus mis à jour
+        user.save()
+
+        # Mise à jour des champs du profil
+        profile.telephone = request.POST.get('telephone')
+        profile.date_naissance = request.POST.get('date_naissance')
+        # Le niveau n'est plus mis à jour
+        profile.ville = request.POST.get('ville')
+        profile.save()
+
+        messages.success(request, 'Vos informations ont été mises à jour avec succès.')
+        return redirect('compte')
+
+    return render(request, 'compte.html', {
+        'user': request.user,
+        'profile': request.user.profile
+    })
 
 
 def process_file(request):

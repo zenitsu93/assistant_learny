@@ -248,35 +248,31 @@ h2 {
 .details {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2rem;
+  gap: 20px;
 }
-
 .item {
   display: flex;
   flex-direction: column;
 }
-
-.item .label {
-  font-weight: 500;
-  font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.6);
-  margin-bottom: 0.5rem;
+.label {
+  font-weight: bold;
+  margin-bottom: 5px;
 }
-
-.item .value {
-  font-weight: 300;
-  font-size: 1rem;
+.value input,
+.value select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }
-
-.item .value {
-  display: flex;
-  align-items: center;
+.value input[type="date"] {
+  padding-right: 10px;
 }
-
-.item .value img {
-  width: 24px;
-  height: 24px;
-  margin-left: 0.5rem;
+.value select {
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 10px center;
 }
 
 /* Styles précédents */
@@ -312,6 +308,12 @@ h2 {
 
 /* Styles pour les breakpoints */
 
+@media (max-width: 768px) {
+  .details {
+      grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 1024px) {
   .container {
       flex-direction: column;
@@ -340,10 +342,6 @@ h2 {
 
   .header > * {
       margin-bottom: 1rem;
-  }
-
-  .details {
-      grid-template-columns: 1fr;
   }
 
   .save {

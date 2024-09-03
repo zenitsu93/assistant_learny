@@ -81,52 +81,59 @@
                 </div>
             </header>
             <h2>Informations personnelles</h2>
-            <div class="image-container">
-              <img src="https://avatar.iran.liara.run/username?username={{user.first_name}}+{{user.last_name}}" class="rectangle-image">
-            </div>
-      <div class="details">
-        <div class="item">
-          <div class="label">Numéro de téléphone</div>
-          <div class="value">{{ user.profile.telephone }}</div>
-        </div>
-        <div class="item">
-          <div class="label">Adresse mail</div>
-          <div class="value">{{ user.email }}</div>
-        </div>
-        <div class="item">
-          <div class="label">Nom</div>
-          <div class="value">{{ user.last_name }}</div>
-        </div>
-        <div class="item">
-          <div class="label">Prénom(s)</div>
-          <div class="value">{{ user.first_name }}</div>
-        </div>
-        <div class="item">
-          <div class="label">Date de naissance</div>
-          <div class="value">
-            <span>{{ user.profile.date_naissance|date:"d/m/Y" }}</span>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">Niveau</div>
-          <div class="value">
-            <span>{{ user.profile.niveau }}</span>
-          </div>
-        </div>
-        <div class="item">
-          <div class="label">Ville</div>
-          <div class="value">
-            <span>{{ user.profile.ville }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="save-container">
-        <button class="save">
-          <img src="{% static 'vectors/save.svg' %}" alt="Save icon">
-          <span class="save-text">Enregistrer les modifications</span>
-        </button>
-      </div>
-
+            <form method="post" action="{% url 'info' %}">
+              {% csrf_token %}
+              <div class="details">
+                  <div class="item">
+                      <div class="label">Numéro de téléphone</div>
+                      <div class="value">
+                          <input type="tel" name="telephone" value="{{ user.profile.telephone }}">
+                      </div>
+                  </div>
+                  <div class="item">
+                      <div class="label">Adresse mail</div>
+                      <div class="value">
+                          <input type="email" value="{{ user.email }}" readonly class="readonly-field">
+                      </div>
+                  </div>
+                  <div class="item">
+                      <div class="label">Nom</div>
+                      <div class="value">
+                          <input type="text" name="last_name" value="{{ user.last_name }}">
+                      </div>
+                  </div>
+                  <div class="item">
+                      <div class="label">Prénom(s)</div>
+                      <div class="value">
+                          <input type="text" name="first_name" value="{{ user.first_name }}">
+                      </div>
+                  </div>
+                  <div class="item">
+                      <div class="label">Date de naissance</div>
+                      <div class="value">
+                          <input type="date" name="date_naissance" value="{{ user.profile.date_naissance|date:'Y-m-d' }}">
+                      </div>
+                  </div>
+                  <div class="item">
+                      <div class="label">Niveau</div>
+                      <div class="value">
+                          <input type="text" value="{{ user.profile.get_niveau_display }}" readonly class="readonly-field">
+                      </div>
+                  </div>
+                  <div class="item">
+                      <div class="label">Ville</div>
+                      <div class="value">
+                          <input type="text" name="ville" value="{{ user.profile.ville }}">
+                      </div>
+                  </div>
+              </div>
+              <div class="save-container">
+                  <button type="submit" class="save">
+                      <img src="{% static 'vectors/save.svg' %}" alt="Save icon">
+                      <span class="save-text">Enregistrer les modifications</span>
+                  </button>
+              </div>
+          </form>
         </main>
     </div>
     <script src="{% static 'js/load.js' %}"></script>
