@@ -24,12 +24,14 @@ function markCurrentCourse() {
         link.classList.remove('active');
         
         var href = link.getAttribute('href');
-        
         // Si l'href du lien correspond à l'URL actuelle (en ignorant les slashes de début/fin)
-        if (href.replace(/^\/|\/$/g, '') === currentPath.replace(/^\/|\/$/g, '')) {
+        var searchParams = new URLSearchParams(window.location.search);
+        var currentCourseName = searchParams.get('cours_name');
+
+        if (href === currentPath || href.includes(currentCourseName)) {
             // Ajoutez la classe 'active'
             link.classList.add('active');
-        }
+        }  
     });
 }
 

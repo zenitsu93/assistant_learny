@@ -496,7 +496,7 @@ textarea{
   color: #57A773;
 }
 
-.discussions.nav .delete-btn {
+.discussions.nav .delete-btn .add-btn{
   background: none;
   border: none;
   color: #999;
@@ -507,27 +507,8 @@ textarea{
   height: auto;
 }
 
-.add-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: 30px;
-}
 
-.ok-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: 30px;
-}
-
-.ok-icon {
-  width: 40px; /* Ajustez la taille de l'image SVG */
-  height: 40px;
-}
-
-
-.discussions.nav .delete-btn i {
+.discussions.nav .delete-btn i .add-btn i{
   font-size: 16px;
 }
 
@@ -535,11 +516,9 @@ textarea{
   color: #f44336;
 }
 
-.add-btn:hover i
-.ok-btn:hover i{
+.discussions.nav .ad-btn:hover i {
   color: var(--primary-color);
 }
-
 
 .discussions-button {
   background: none;
