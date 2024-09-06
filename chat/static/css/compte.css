@@ -245,19 +245,43 @@ h2 {
   margin-bottom: 2rem;
 }
 
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.profil-compte-container {
+  margin-bottom: 30px;
+}
+
+.profil-compte {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 .details {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
+  width: 100%;
 }
+
 .item {
   display: flex;
   flex-direction: column;
 }
+
 .label {
   font-weight: bold;
   margin-bottom: 5px;
 }
+
 .value input,
 .value select {
   width: 100%;
@@ -266,13 +290,19 @@ h2 {
   border-radius: 5px;
   font-size: 16px;
 }
+
 .value input[type="date"] {
   padding-right: 10px;
 }
+
 .value select {
   appearance: none;
   background-repeat: no-repeat;
   background-position: right 10px center;
+}
+
+.readonly-field {
+  background-color: #f0f0f0;
 }
 
 /* Styles précédents */

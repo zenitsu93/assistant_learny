@@ -83,49 +83,54 @@
             <h2>Informations personnelles</h2>
             <form method="post" action="{% url 'info' %}">
               {% csrf_token %}
-              <div class="details">
+              <div class="profile-container">
+                <div class="profil-compte-container">
+                  <img class="profil-compte" src="https://avatar.iran.liara.run/username?username={{user.first_name}}+{{user.last_name}}" alt="Photo de profil">
+                </div>
+                <div class="details">
                   <div class="item">
-                      <div class="label">Numéro de téléphone</div>
-                      <div class="value">
-                          <input type="tel" name="telephone" value="{{ user.profile.telephone }}">
-                      </div>
+                    <div class="label">Numéro de téléphone</div>
+                    <div class="value">
+                      <input type="tel" name="telephone" value="{{ user.profile.telephone }}">
+                    </div>
                   </div>
                   <div class="item">
-                      <div class="label">Adresse mail</div>
-                      <div class="value">
-                          <input type="email" value="{{ user.email }}" readonly class="readonly-field">
-                      </div>
+                    <div class="label">Adresse mail</div>
+                    <div class="value">
+                      <input type="email" value="{{ user.email }}" readonly class="readonly-field">
+                    </div>
                   </div>
                   <div class="item">
-                      <div class="label">Nom</div>
-                      <div class="value">
-                          <input type="text" name="last_name" value="{{ user.last_name }}">
-                      </div>
+                    <div class="label">Nom</div>
+                    <div class="value">
+                      <input type="text" name="last_name" value="{{ user.last_name }}">
+                    </div>
                   </div>
                   <div class="item">
-                      <div class="label">Prénom(s)</div>
-                      <div class="value">
-                          <input type="text" name="first_name" value="{{ user.first_name }}">
-                      </div>
+                    <div class="label">Prénom(s)</div>
+                    <div class="value">
+                      <input type="text" name="first_name" value="{{ user.first_name }}">
+                    </div>
                   </div>
                   <div class="item">
-                      <div class="label">Date de naissance</div>
-                      <div class="value">
-                          <input type="date" name="date_naissance" value="{{ user.profile.date_naissance|date:'Y-m-d' }}">
-                      </div>
+                    <div class="label">Date de naissance</div>
+                    <div class="value">
+                      <input type="date" name="date_naissance" value="{{ user.profile.date_naissance|date:'Y-m-d' }}">
+                    </div>
                   </div>
                   <div class="item">
-                      <div class="label">Niveau</div>
-                      <div class="value">
-                          <input type="text" value="{{ user.profile.get_niveau_display }}" readonly class="readonly-field">
-                      </div>
+                    <div class="label">Niveau</div>
+                    <div class="value">
+                      <input type="text" value="{{ user.profile.get_niveau_display }}" readonly class="readonly-field">
+                    </div>
                   </div>
                   <div class="item">
-                      <div class="label">Ville</div>
-                      <div class="value">
-                          <input type="text" name="ville" value="{{ user.profile.ville }}">
-                      </div>
+                    <div class="label">Ville</div>
+                    <div class="value">
+                      <input type="text" name="ville" value="{{ user.profile.ville }}">
+                    </div>
                   </div>
+                </div>
               </div>
               <div class="save-container">
                   <button type="submit" class="save">
