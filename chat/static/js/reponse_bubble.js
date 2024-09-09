@@ -11,6 +11,9 @@ const userChatDiv = (data) => {
 const aiChatDiv = (data) => {
   return `
     <li class="bot-message">
+      <div class="bot-avatar">
+        <img src="/static/images/chat-bot.svg" alt="Bot Image" class="bot-image">
+      </div>
       <div class="markdown-content"></div>
     </li>
   `;
@@ -79,6 +82,9 @@ function createLoadingAnimation() {
   chatBubble.className = 'chat-bubble';
   chatBubble.innerHTML = `
     <div class="typing">
+      <div class="bot-avatar">
+        <img src="/static/images/chat-bot.svg" alt="Bot Image" class="bot-image">
+      </div>
       <div class="dot"></div>
       <div class="dot"></div>
       <div class="dot"></div>

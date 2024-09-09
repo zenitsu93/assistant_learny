@@ -133,6 +133,9 @@
                     </li>
                     <!-- Message du chatbot -->
                     <li class="bot-message">
+                        <div class="bot-avatar">
+                            <img src="{% static 'images/chat-bot.svg' %}" alt="Bot Image" class="bot-image">
+                        </div>
                         {{ chat.response|convert_markdown|safe}}
                     </li>
                 {% endfor %}

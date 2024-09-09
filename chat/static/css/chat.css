@@ -570,19 +570,13 @@ textarea{
     margin-left: 0;
 }
 
-.bot-avatar {
-  width: 40px;
-  height: 40px;
+.bot-image {
+  width: 50px; /* Ajuste la taille de l'image si nécessaire */
+  height: 50px;
+  border-radius: 50%; /* Pour arrondir l'image */
   margin-right: 10px;
-  flex-shrink: 0;
 }
 
-.bot-avatar img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
 
 .button-group {
   display: inline-block;
