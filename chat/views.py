@@ -143,8 +143,7 @@ def get_chatbot_response(request):
     if request.method == 'POST':
         user_message = request.POST.get('message')
         session_id = request.POST.get('session_id')
-        print("debut",session_id)
-        
+    
         chatbot_response = generate_response(user_message, session_id)
         save_chat(request, session_id, user_message, chatbot_response)
         

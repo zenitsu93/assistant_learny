@@ -12,6 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.css">
     <link rel="stylesheet" href="{% static 'css/chat.css' %}">
     <link rel="stylesheet" href="{% static 'css/loader.css' %}">
     <link rel="stylesheet" href="{% static 'css/bubble.css' %}">
@@ -138,20 +139,7 @@
             </ul>
             
             <!-- Zone de saisie -->
-            {% comment %} <div class="contain">
-                <div class="avatar"></div>
-                <div class="chat-message">
-                    <div class="message-content">
-                        <p>Bonjour {{user.first_name}} !</p>
-                        <p>JJe suis ici pour t'aider à améliorer tes compétences en {{cours_name|upper}}. Prêt à commencer ?<br> Clique sur "OK" si tu es partant !</p>
-                        <a href="#" onclick="hideContain()">
-                            <button class="ok-btn">
-                            <img src="{% static 'vectors/close.svg' %}" alt="OK" class="ok-icon">
-                            </button>
-                        </a>                      
-                    </div>
-                </div>
-            </div> {% endcomment %}
+           
             <div class="chat-container">
                 <div class="suggestion" id="file-info" style="display: none;">
                     <div class="suggestion-item">
@@ -192,6 +180,11 @@
     </div>
     
     <!-- Scripts JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.7/dist/contrib/auto-render.min.js"></script>
     <script src="{% static 'js/chat.js' %}"></script>
     <script src="{% static 'js/info.js' %}"></script>
     <script src="{% static 'js/list_cours.js' %}"></script>
@@ -206,8 +199,6 @@
     <script src="{% static 'js/voice-recognition.js' %}"></script>
     <script src="{% static 'js/load.js' %}"></script>
     <script src="{% static 'js/reponse_bubble.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/2.0.3/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
     {% comment %} <script src="{% static 'js/remove_link.js' %}"></script> {% endcomment %}
 
 </body>
