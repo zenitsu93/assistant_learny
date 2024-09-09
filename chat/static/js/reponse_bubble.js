@@ -99,3 +99,4 @@ chatForm.addEventListener("keyup", (event) => {
     handleSubmit(event);
   }
 });
+
