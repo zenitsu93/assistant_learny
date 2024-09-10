@@ -24,7 +24,7 @@ Ce projet est un chatbot éducatif développé avec Django et utilisant l'API Go
 
 1. Clonez ce dépôt :
    ```
-   git clone https://github.com/votre-username/chatbot-educatif.git
+   git clone https://github.com/ChristianthomasBADOLO/assistant.git
    ```
 
 2. Installez les dépendances :
