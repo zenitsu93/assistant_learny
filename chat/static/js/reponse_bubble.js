@@ -34,6 +34,32 @@ function typeEffect(element, markdown) {
   }
   type();
 }
+
+
+
+function getCurrentCourseInfo() {
+  const coursInfoSpan = document.querySelector('.cours-info span');
+  if (coursInfoSpan) {
+      // Extraire le texte du span
+      const text = coursInfoSpan.textContent;
+      // Le texte est au format "Cours : NOM_DU_COURS NIVEAU"
+      const match = text.match(/Cours : ([A-Z-]+)\s+(\d+[A-Za-zèéêë]+)/);
+      if (match) {
+          return {
+              cours_name: match[1].toLowerCase(), // Le nom du cours en minuscules
+              classe: match[2] // Le niveau (ex: "3eme")
+          };
+      }
+  }
+  return {
+      cours_name: null,
+      classe: null
+  };
+}
+
+// Exemple d'utilisation :
+const courseInfo = getCurrentCourseInfo();
+
 // Fonction principale pour gérer la soumission du formulaire
 const handleSubmit = async (event) => {
   event.preventDefault();
@@ -56,11 +82,12 @@ const handleSubmit = async (event) => {
       body: new URLSearchParams({
         csrfmiddlewaretoken: csrf_token,
         message: userPrompt,
-        session_id: document.getElementById("session_id").value
+        session_id: document.getElementById("session_id").value,
+        cours_name : courseInfo.cours_name,
+        classe : courseInfo.classe
       }),
     });
     const data = await response.json();
-    
     // Supprimer l'animation de chargement
     loadingAnimation.remove();
     // Ajouter la réponse du chatbot avec l'effet de frappe
