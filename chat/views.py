@@ -145,7 +145,6 @@ def get_chatbot_response(request):
         session_id = request.POST.get('session_id')
         cours_name = request.POST.get('cours_name')
         classe = request.POST.get('classe')
-        print(cours_name)
       
         chatbot_response = generate_response(user_message, session_id, cours_name, classe)
         save_chat(request, session_id, user_message, chatbot_response)
