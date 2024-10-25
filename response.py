@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 import os
 import google.generativeai as genai
 from chat.models import Chat, Session
-
+from get_subject_prompt import get_subject_prompt
 # Charger les variables d'environnement
 load_dotenv()
 
@@ -12,8 +12,7 @@ genai.configure(api_key=google_api_key)
  # Initialiser le modèle
 model = genai.GenerativeModel('gemini-pro')
 
-def generate_response(prompt, session_id):
-    
+def generate_response(prompt, session_id, cours_name, classe):
     # Récupérer l'historique de la session
     try:
         session = Session.objects.get(id=session_id)
@@ -22,10 +21,19 @@ def generate_response(prompt, session_id):
     except Session.DoesNotExist:
         chat_history = ""
 
-    # Ajouter le message actuel à l'historique
-    complete_prompt = f"{chat_history}\nUser: {prompt}\nBot:"
+    # Obtenir le prompt spécifique à la matière
+    subject_context = get_subject_prompt(cours_name.lower(), classe.lower())
     
-    # Générer la réponse en tenant compte du contexte
+    # Construire le prompt complet
+    complete_prompt = (
+        f"{subject_context}\n\n"
+        "Historique de la conversation:\n"
+        f"{chat_history}\n"
+        f"User: {prompt}\n"
+        "Bot:"
+    )
+    
+    # Générer la réponse
     response = model.generate_content(complete_prompt)
     
     return response.text
