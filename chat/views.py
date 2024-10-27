@@ -15,7 +15,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.db import transaction
 from django.contrib import messages
 from .models import UserProfile
-from rag import rag_answer_question
+
 
 
 
@@ -235,20 +235,6 @@ def info(request):
 def process_file(request):
     if request.method == 'POST' and request.FILES.get('file'):
         uploaded_file = request.FILES['file']
-        
+        # A venir
         # Lire le contenu du fichier
-        file_content = uploaded_file.read()
-        print(uploaded_file)
-        # Traitement du fichier ici
-        # Par exemple, si c'est un fichier texte :
-        # text_content = file_content.decode('utf-8')
         
-        # Faites votre traitement ici
-        # ...
-
-        # Retournez une réponse
-        return JsonResponse({'message': 'Fichier traité avec succès'})
-    
-    return JsonResponse({'error': 'Aucun fichier n\'a été uploadé'}, status=400)
-
-
