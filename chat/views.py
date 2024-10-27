@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_protect
 from django.db import transaction
 from django.contrib import messages
 from .models import UserProfile
+from rag import rag_answer_question
 
 
 
@@ -237,7 +238,7 @@ def process_file(request):
         
         # Lire le contenu du fichier
         file_content = uploaded_file.read()
-        
+        print(uploaded_file)
         # Traitement du fichier ici
         # Par exemple, si c'est un fichier texte :
         # text_content = file_content.decode('utf-8')
